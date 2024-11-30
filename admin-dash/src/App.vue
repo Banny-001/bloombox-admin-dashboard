@@ -4,13 +4,15 @@ import Navbar from "./components/navbar.vue"
 </script>
 
 <template>
-  <v-app id="app">
-    <Navbar />
-    <v-main>
-      <RouterView />
-    </v-main>
+ <v-app>
+    <Navbar/>
+   
   </v-app>
-
-
-
 </template>
+
+<script>
+export default {
+  name: "App",
+};
+</script>
+

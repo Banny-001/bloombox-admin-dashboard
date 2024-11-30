@@ -1,111 +1,137 @@
 <template>
-    <v-app-bar color="primary" dark>
-    
-      <v-app-bar-nav-icon @click.stop="drawer =!drawer" />
-  
-      <!-- Title -->
-      <v-toolbar-title>Bloombox</v-toolbar-title>
-      
-      <v-spacer></v-spacer>
-    </v-app-bar>
-  
-    <!-- Drawer -->
-    <v-navigation-drawer v-model="drawer" app temporary>
-      <v-list>
-        <v-list-item-group>
-          <!-- Home Link -->
-          <router-link to="/" class="router-link">
-            <v-list-item class="list-item">
-              <v-list-item-icon class="list-item-icon">
-                <v-icon>mdi-home</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="list-item-title">Home</v-list-item-title>
-            </v-list-item>
-          </router-link>
-  
-          <!-- About Link -->
-          <router-link to="/about" class="router-link">
-            <v-list-item class="list-item">
-              <v-list-item-icon class="list-item-icon">
-                <v-icon>mdi-information</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="list-item-title">About</v-list-item-title>
-            </v-list-item>
-          </router-link>
-  
-          <!-- Settings Link (optional) -->
-          <router-link to="/products" class="router-link">
-            <v-list-item class="list-item">
-              <v-list-item-icon class="list-item-icon">
-                <v-icon>mdi-product</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="list-item-title">Products</v-list-item-title>
-            </v-list-item>
-          </router-link>
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
-  </template>
-  
-  <script setup>
-  import { ref } from "vue";
-  
-  const drawer = ref(false); // Drawer state
-  </script>
-  
-  <style scoped>
-  
-  .v-navigation-drawer .v-list {
-    padding-top: 16px; 
-    padding-bottom: 16px; 
-  }
-  
- 
-  .list-item {
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s;
-  }
+  <v-main>
+    <!-- App Bar -->
   
 
-  .list-item:hover {
-    background-color: #e3f2fd;
-  }
-  
-  
-  .list-item-icon {
-    min-width: 40px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 16px;
-  }
-  
-  .icon {
-    font-size: 24px;
-    color: #1976d2; 
-  }
-  
- 
-  .list-item-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: #1976d2; 
-    margin-left: 8px; 
-  }
-  
- 
-  .router-link {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .router-link .v-list-item-title {
-    padding-left: 16px; 
-  }
-  </style>
-  
+    <!-- Drawer and Main Content -->
+
+    <!-- Navigation Drawer -->
+    <v-navigation-drawer
+      v-model="drawer"
+      :rail="rail"
+      permanent
+      app
+      @click="rail = false"
+    >
+      <v-list-item
+        prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
+        title="John Leider"
+        nav
+      >
+        <template v-slot:append>
+          <v-btn
+            icon="mdi-chevron-left"
+            variant="text"
+            @click.stop="rail = !rail"
+          ></v-btn>
+        </template>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list density="compact" nav>
+        <v-list-item
+          prepend-icon="mdi-home-city"
+          title="Home"
+          to="/"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-package-variant"
+          title="Products"
+          to="/products"
+        ></v-list-item>
+        <v-list-item
+        prepend-icon="mdi-leaf"
+
+          title="Florists"
+          to="/florists"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-account"
+          title="My Account"
+          to="/account"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-account-group-outline"
+          title="Users"
+          to="/users"
+        ></v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar app color="#6200ea" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>BloomBox</v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <v-btn icon>
+        <v-icon>mdi-bell</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <!-- Main Content -->
+    
+      <router-view />
+   
+  </v-main>
+</template>
+
+<script setup>
+import { ref } from "vue";
+
+const drawer = ref(true); // Drawer state
+const rail = ref(false); // Compact drawer toggle
+</script>
+
+<style scoped>
+/* Ensure Full-Screen Layout */
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.v-application {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure Main Content Fills Remaining Space */
+.v-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Content Styling */
+.content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Drawer Styling */
+.v-navigation-drawer {
+  background-color: #f5f5f5 !important;
+}
+
+/* App Bar Styling */
+.v-app-bar {
+  z-index: 10;
+  position: fixed;
+}
+
+/* List Item Hover Effect */
+.v-list-item:hover {
+  background-color: #e3f2fd;
+}
+</style>
